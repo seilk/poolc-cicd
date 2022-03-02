@@ -3,28 +3,31 @@
 
 name: Node.js CI
 
+# 발동 조건
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
+# 작업 환경
 jobs:
   build:
-
+    # 우분투에서 돌아감
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    
+    # 동작 과정
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - uses: actions/checkout@v2 # 두 개의 플러그인을 사용함
+    - name: Use Node.js ${{ matrix.node-version }} # 확장기능 사용
       uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      with: # for each와 동일
+        node-version: ${{ matrix.node-version }} 
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
